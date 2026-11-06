@@ -29,7 +29,6 @@ public class Conexion {
     
     public boolean ejecutaSentenciasAccion(String consultaSql) {
         try {
-            //PRUEBA COMENTARIO GIT
             return ejecutaSentencias.execute(consultaSql);
         } catch (SQLException e) {
             System.out.println("ERROR: en ejecutaSentenciasAccion: " + e.getMessage());
