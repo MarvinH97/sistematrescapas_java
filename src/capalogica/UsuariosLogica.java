@@ -5,6 +5,8 @@
 package capalogica;
 
 import capacontrolador.Conexion;
+import java.util.ArrayList;
+import java.sql.*;
 
 /**
  *
@@ -27,4 +29,29 @@ public class UsuariosLogica {
             return true;
         }
     }
+    
+    public ArrayList<UsuariosDAO> getListado(UsuariosDAO pUsuariosDAO) {
+        String elCorreo = pUsuariosDAO.getCorreos();
+        ArrayList<UsuariosDAO> elListadoRetornar = new ArrayList<UsuariosDAO>();
+        String consultaSql = "";
+        try {
+            consultaSql = "SELECT * FROM usuarios ";
+            if (!elCorreo.equals("-1")) {
+                consultaSql += "WHERE correos = '" + elCorreo + "'";
+            }
+            ResultSet resultado = conexion.ejecutaSentenciasSelect(consultaSql);
+            while (resultado.next()) {                
+                UsuariosDAO objUsuariosDAO = new UsuariosDAO();
+                objUsuariosDAO.setCorreos(resultado.getString(1));
+                objUsuariosDAO.setNombres(resultado.getString(2));
+                objUsuariosDAO.setApellidos(resultado.getString(3));
+                objUsuariosDAO.setClaves(resultado.getString(4));
+                objUsuariosDAO.setNiveles(resultado.getInt(5));
+                elListadoRetornar.add(objUsuariosDAO);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR en getListado: " + e.getMessage());
+        }
+        return elListadoRetornar;
+    } 
 }
