@@ -6,6 +6,7 @@ package sistematrescapas;
 
 import capalogica.UsuariosDAO;
 import capalogica.UsuariosLogica;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -105,6 +106,11 @@ public class FrmUsuarios extends javax.swing.JFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
 
@@ -215,6 +221,26 @@ public class FrmUsuarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe de llenar todos los campos antes de guardar.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        String elCorreoBuscar = txtCorreo.getText().trim();
+        usuariosDAO.setCorreos(elCorreoBuscar);
+        ArrayList<UsuariosDAO> resultado = usuariosLogica.getListado(usuariosDAO);
+        for (UsuariosDAO registro : resultado) {
+            txtCorreo.setText(registro.getCorreos());
+            txtNombres.setText(registro.getNombres());
+            txtApellidos.setText(registro.getApellidos());
+            txtClave.setText(registro.getClaves());
+            int elNivel = registro.getNiveles();
+            if (elNivel == 1)
+                rdbUsuario.setSelected(true);
+            else if (elNivel == 2)
+                rdbAsistente.setSelected(true);
+            else
+                rdbAdministrador.setSelected(true);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
